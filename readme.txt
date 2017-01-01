@@ -26,7 +26,7 @@ http://www.runoob.com/w3cnote/git-guide.html
     （2）初始化本地Git仓库
      git init [swjsrc]
      初始化一个本地Git仓库，使用git init命令。
-    （3）获取README.md文件
+    （3）获取README.md文件,进行 README.md 的初始化
       touch README.md。这命令是添加一个文件。 
       或git pull origin master
 
@@ -46,6 +46,8 @@ http://www.runoob.com/w3cnote/git-guide.html
     (3)把本地内容推送到github远程库上(第一次push 参数带 -u 关联远程仓库)
 
      $ git push -u origin master
+     $ git push -f origin master   //强覆盖方式用你本地的代码替代git仓库内的内容
+
 
 
 
@@ -85,9 +87,36 @@ $ ssh-keygen -t rsa -C "youremail@example.com"
 
 然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容：
 
-5.上传和下载
+上传和下载
 git remote和git clone
 
+【问题解决】
+错误信息：error: object file .git/objects/c6/884991eaac39417e314faa6685061eab18909d is empty
+fatal: loose object c6884991eaac39417e314faa6685061eab18909d (stored in .git/objects/c6/884991eaac39417e314faa6685061eab18909d) is corrupt
+
+解决方法：
+1  rm .git/objects/c6/884991eaac39417e314faa6685061eab18909d
+2 .git fsck --full
+3.git reflog
+
+【示例】
+//////////////////////////////
+
+第一步，增加远程仓库
+git remote add origin1 git.a
+git remote add origin2 git.b
+
+第二步，本地确保没 change 的东西，拉去远程仓库地址，然后进行 rebase 。
+git fetch origin1
+git rebase -i origin1/dev
+
+如果有冲突，解决完。
+
+git push -f origin1 dev git push -f origin2 dev
+
+
+
+【示例】
 ///////////////////////////
 touch README.md
 git init
@@ -95,9 +124,6 @@ git add README.md
 git commit -m "first commit"
 git remote add origin https://github.com/zxdong262/paper-slider.git
 git push -u origin master
-
-
-$ ssh -T git@github.com
 
 
 ######################
